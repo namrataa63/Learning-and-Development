@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">ld</database>
+</source>
+<canvas zoom="40">
+<tables>
+<table name="user_role" view="colnames">
+<left>89</left>
+<top>2</top>
+<width>62</width>
+<height>77</height>
+<sql_create_table>CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `role_enum` enum('STACK_OWNER','ADMIN') default NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) default '1',
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `org_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="org_user" view="colnames">
+<left>1</left>
+<top>0</top>
+<width>62</width>
+<height>77</height>
+<sql_create_table>CREATE TABLE `org_user` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) default '1',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal" view="colnames">
+<left>314</left>
+<top>147</top>
+<width>66</width>
+<height>122</height>
+<sql_create_table>CREATE TABLE `goal` (
+  `id` int(11) NOT NULL auto_increment,
+  `org_id` int(11) NOT NULL,
+  `tech_stack_id` int(11) NOT NULL,
+  `goal_id` varchar(255) NOT NULL,
+  `version` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `goal_status` enum('Ready','In Review','Draft','In Active') NOT NULL,
+  `level_id` int(11) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
+  `credit_point_id` int(11) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `goal_classification_id` int(11) NOT NULL,
+  `other_prerequisite` varchar(255) NOT NULL,
+  `esimated_effort` float NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  `course_cost` double default NULL,
+  `course_link` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `goal_id` (`goal_id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `tech_stack_id` (`tech_stack_id`),
+  KEY `level_id` (`level_id`),
+  KEY `credit_point_id` (`credit_point_id`),
+  KEY `goal_classification_id` (`goal_classification_id`),
+  CONSTRAINT `goal_ibfk_1` FOREIGN KEY (`tech_stack_id`) REFERENCES `tech_stack` (`id`),
+  CONSTRAINT `goal_ibfk_2` FOREIGN KEY (`level_id`) REFERENCES `goal_level` (`id`),
+  CONSTRAINT `goal_ibfk_3` FOREIGN KEY (`credit_point_id`) REFERENCES `credit_point` (`id`),
+  CONSTRAINT `goal_ibfk_4` FOREIGN KEY (`goal_classification_id`) REFERENCES `goal_classification` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="tech_stack" view="colnames">
+<left>178</left>
+<top>7</top>
+<width>62</width>
+<height>97</height>
+<sql_create_table>CREATE TABLE `tech_stack` (
+  `id` int(11) NOT NULL auto_increment,
+  `org_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `owner_id` int(11) NOT NULL,
+  `tech_stack_status` enum('Active','Draft','inActive') default NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal_level" view="colnames">
+<left>526</left>
+<top>138</top>
+<width>60</width>
+<height>68</height>
+<sql_create_table>CREATE TABLE `goal_level` (
+  `id` int(11) NOT NULL auto_increment,
+  `level` varchar(50) NOT NULL,
+  `last_modified_by` bigint(20) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="credit_point" view="colnames">
+<left>526</left>
+<top>215</top>
+<width>62</width>
+<height>63</height>
+<sql_create_table>CREATE TABLE `credit_point` (
+  `id` int(11) NOT NULL auto_increment,
+  `points` float NOT NULL,
+  `last_modified_by` bigint(20) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal_classification" view="colnames">
+<left>524</left>
+<top>291</top>
+<width>62</width>
+<height>63</height>
+<sql_create_table>CREATE TABLE `goal_classification` (
+  `id` int(11) NOT NULL auto_increment,
+  `classification` varchar(50) NOT NULL,
+  `last_modified_by` bigint(20) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal_member" view="colnames">
+<left>414</left>
+<top>91</top>
+<width>62</width>
+<height>84</height>
+<sql_create_table>CREATE TABLE `goal_member` (
+  `id` int(11) NOT NULL auto_increment,
+  `goal_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `goal_role` enum('COORDINATOR','EVALUATOR') NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) default '1',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `goal_id` (`goal_id`,`user_id`),
+  CONSTRAINT `goal_member_ibfk_1` FOREIGN KEY (`goal_id`) REFERENCES `goal` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal_prerequisite" view="colnames">
+<left>85</left>
+<top>131</top>
+<width>65</width>
+<height>77</height>
+<sql_create_table>CREATE TABLE `goal_prerequisite` (
+  `id` int(11) NOT NULL auto_increment,
+  `goal_id` int(11) NOT NULL,
+  `prerequisite_goal_id` int(11) NOT NULL,
+  `created_by` int(11) default NULL,
+  `last_modified_by` int(11) default NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) default '1',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `goal_id` (`goal_id`,`prerequisite_goal_id`),
+  KEY `prerequisite_goal_id` (`prerequisite_goal_id`),
+  CONSTRAINT `goal_prerequisite_ibfk_1` FOREIGN KEY (`goal_id`) REFERENCES `goal` (`id`),
+  CONSTRAINT `goal_prerequisite_ibfk_2` FOREIGN KEY (`prerequisite_goal_id`) REFERENCES `goal` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal_chapter" view="colnames">
+<left>243</left>
+<top>311</top>
+<width>62</width>
+<height>104</height>
+<sql_create_table>CREATE TABLE `goal_chapter` (
+  `id` int(11) NOT NULL auto_increment,
+  `goal_id` int(11) NOT NULL,
+  `name` varchar(255) default NULL,
+  `credits` float default NULL,
+  `content_link` varchar(50) default NULL,
+  `chapter_sequence` int(11) default NULL,
+  `additional_link` varchar(50) default NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) default '1',
+  PRIMARY KEY  (`id`),
+  KEY `goal_id` (`goal_id`),
+  CONSTRAINT `goal_chapter_ibfk_1` FOREIGN KEY (`goal_id`) REFERENCES `goal` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user_goal" view="colnames">
+<left>164</left>
+<top>261</top>
+<width>73</width>
+<height>97</height>
+<sql_create_table>CREATE TABLE `user_goal` (
+  `id` int(11) NOT NULL auto_increment,
+  `goal_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `quarter_id` int(11) NOT NULL,
+  `user_goal_status_enum` enum('PendingApproval','InProgress','Claimed','Approved','Rejected') NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
+  `approved_by` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) default NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_entry` (`goal_id`,`user_id`),
+  KEY `quarter_id` (`quarter_id`),
+  CONSTRAINT `user_goal_ibfk_1` FOREIGN KEY (`goal_id`) REFERENCES `goal` (`id`),
+  CONSTRAINT `user_goal_ibfk_2` FOREIGN KEY (`quarter_id`) REFERENCES `goal_quarter` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="goal_quarter" view="colnames">
+<left>39</left>
+<top>281</top>
+<width>62</width>
+<height>70</height>
+<sql_create_table>CREATE TABLE `goal_quarter` (
+  `id` int(11) NOT NULL auto_increment,
+  `year` bigint(20) NOT NULL,
+  `quarter` varchar(50) NOT NULL,
+  `last_modified_by` bigint(20) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_quarter` (`year`,`quarter`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user_goal_claim" view="colnames">
+<left>86</left>
+<top>431</top>
+<width>69</width>
+<height>118</height>
+<sql_create_table>CREATE TABLE `user_goal_claim` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_goal_id` int(11) NOT NULL,
+  `claimed_credits` double NOT NULL,
+  `chapters_completed` varchar(50) NOT NULL,
+  `assignment_link` varchar(500) NOT NULL,
+  `time_spent_mins` double NOT NULL,
+  `assignment_quality_id` int(11) NOT NULL,
+  `comment` varchar(255) default NULL,
+  `feedback` varchar(255) default NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) default NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `unique_user_goal` (`user_goal_id`),
+  KEY `assignment_quality_id` (`assignment_quality_id`),
+  CONSTRAINT `user_goal_claim_ibfk_1` FOREIGN KEY (`user_goal_id`) REFERENCES `user_goal` (`id`),
+  CONSTRAINT `user_goal_claim_ibfk_2` FOREIGN KEY (`assignment_quality_id`) REFERENCES `assignment_quality` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="assignment_quality" view="colnames">
+<left>15</left>
+<top>371</top>
+<width>62</width>
+<height>63</height>
+<sql_create_table>CREATE TABLE `assignment_quality` (
+  `id` int(11) NOT NULL auto_increment,
+  `quality` varchar(50) NOT NULL,
+  `last_modified_by` bigint(20) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="user_goal_evaluation" view="colnames">
+<left>201</left>
+<top>425</top>
+<width>68</width>
+<height>90</height>
+<sql_create_table>CREATE TABLE `user_goal_evaluation` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_goal_claimed_id` int(11) NOT NULL,
+  `approved_credit` double NOT NULL,
+  `feedback` varchar(255) default NULL,
+  `evaluated_by` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `last_modified_by` int(11) NOT NULL,
+  `last_modified_date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_goal_claimed_id` (`user_goal_claimed_id`),
+  CONSTRAINT `user_goal_evaluation_ibfk_1` FOREIGN KEY (`user_goal_claimed_id`) REFERENCES `user_goal_claim` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>

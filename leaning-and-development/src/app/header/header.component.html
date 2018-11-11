@@ -1,0 +1,22 @@
+<header class="domain-admin__header">
+  <div class="row">
+    <div class="col-sm breadcrumb__container">
+      <ul class="breadcrumbs">
+          <li><a>Home/</a></li>
+          <li><a href="">My Connections</a></li>
+      </ul>
+    </div>
+    <div class="col-sm user-profile__container">
+      <div class="user-profile" (click)="menu.toggle($event)">
+         <span class="thumb-sm profile-button-md">
+          <img class="img-fluid" src="assets\img\default_avatar.png"/>
+        </span>
+        <span class="user-info">
+          Hi <strong>Admin</strong>
+          <span class="pi pi-caret-down"></span>
+        </span>
+      </div>
+      <p-menu #menu [popup]="true" appendTo="body" [model]="items"></p-menu>
+    </div>
+  </div>
+</header>

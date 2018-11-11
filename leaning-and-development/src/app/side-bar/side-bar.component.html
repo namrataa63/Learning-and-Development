@@ -1,0 +1,33 @@
+<nav class="side_navigation">
+  <header>
+    <img src="./assets/img/logo-wrs.png" class="big" alt="" />
+    <img src="./assets/img/logo-small.png" class="small" alt="" />
+    <img src="./assets/img/logo-inverted.png" class="inverted" alt="" />
+    <a class="toggle-anchor" (click)="toggleNav()" click-stop-propagation>
+      <i class="fas fa-align-justify"></i>
+    </a>
+  </header>
+  <section class="main_navigation">
+    <ul>
+      <li>
+        <a uiSref="app.authorized.employee_profile" pTooltip="<div>My Profile</div>" tooltipPosition="bottom">
+          <i class="fas fa-users-cog"></i>
+          <span>L&D Administration</span>
+        </a>
+      </li>
+      <li>
+        <a uiSref="app.authorized.my_connections" data-toggle="tooltip" #nav2 id="nav2" pTooltip="<div>My<br/> Connections</div>" tooltipPosition="top" >
+          <i class="fas fa-trophy"></i>
+          <span>Goals Management</span>
+        </a>
+      </li>
+      <li>
+        <a uiSref="app.authorized.groups" #nav4 id="nav4" pTooltip="<div>Groups</div>" tooltipStyleClass="groups-tooltip" tooltipPosition="top" >
+          <i class="fas fa-file-alt"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</nav>
+<!--header UI END-->
